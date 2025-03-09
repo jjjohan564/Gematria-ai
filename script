@@ -1,0 +1,85 @@
+// Integrated API key (for temporary testing only)
+const API_KEY = "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";
+
+// Listen for click events on the Send button
+document.getElementById('sendBtn').addEventListener('click', () => {
+  const userInput = document.getElementById('userInput').value.trim();
+  
+  if (!userInput) {
+    alert("Please enter some text.");
+    return;
+  }
+  
+  // Display the user's message
+  appendMessage('user', userInput);
+  document.getElementById('userInput').value = '';
+  
+  // Call the gematria API (using your Chinese reasoning model)
+  callGematriaAPI(API_KEY, userInput);
+});
+
+// Helper function to append messages to the chat log
+function appendMessage(sender, text, extraClass = "") {
+  const chatLog = document.getElementById('chatLog');
+  const messageDiv = document.createElement('div');
+  messageDiv.classList.add('message', sender);
+  if (extraClass) messageDiv.classList.add(extraClass);
+  messageDiv.textContent = text;
+  chatLog.appendChild(messageDiv);
+  // Smooth scroll to the latest message
+  chatLog.scrollTop = chatLog.scrollHeight;
+  return messageDiv;
+}
+
+// Function to simulate gematria calculation via API with a "thinking" animation and second counter
+function callGematriaAPI(apiKey, text) {
+  // Create a system message with a "thinking" animation and counter
+  let secondsCounter = 0;
+  const thinkingMessage = appendMessage('system', `Thinking... ${secondsCounter} seconds`, "thinking");
+
+  // Update the thinking message every second
+  const intervalId = setInterval(() => {
+    secondsCounter++;
+    thinkingMessage.textContent = `Thinking... ${secondsCounter} seconds`;
+  }, 1000);
+
+  // Simulated API call delay
+  setTimeout(() => {
+    clearInterval(intervalId);
+    
+    // Example gematria calculation: sum of Unicode values
+    let sum = 0;
+    for (let char of text) {
+      sum += char.charCodeAt(0);
+    }
+    
+    // Update the thinking message with the result and the duration it took
+    thinkingMessage.textContent = `Gematria value for "${text}" is ${sum}. (Thought for ${secondsCounter} seconds)`;
+    // Optionally, remove the "thinking" class once done
+    thinkingMessage.classList.remove("thinking");
+  }, 1500);
+
+  /*
+  // Uncomment and update this block to integrate with your actual API:
+  fetch('https://your-chinese-model-api-endpoint.com/calculate', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${apiKey}`
+    },
+    body: JSON.stringify({ text: text })
+  })
+  .then(response => response.json())
+  .then(data => {
+    clearInterval(intervalId);
+    thinkingMessage.textContent = `Gematria value for "${text}" is ${data.gematriaValue}. (Thought for ${secondsCounter} seconds)`;
+    thinkingMessage.classList.remove("thinking");
+  })
+  .catch(error => {
+    clearInterval(intervalId);
+    console.error('Error:', error);
+    thinkingMessage.textContent = 'An error occurred while calculating gematria.';
+    thinkingMessage.classList.remove("thinking");
+  });
+  */
+}
