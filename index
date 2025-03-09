@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Gematria Chat</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>Gematria Chat</h1>
+      <p>Specialized ChatGPT for Calculating Gematria in All Languages</p>
+    </header>
+    
+    <!-- Chat window where messages appear -->
+    <section class="chat-window" id="chatLog">
+      <!-- Chat messages will appear here -->
+    </section>
+    
+    <!-- Input area for user messages -->
+    <section class="input-section">
+      <input type="text" id="userInput" placeholder="Enter text for gematria calculation..." />
+      <button id="sendBtn">Send</button>
+    </section>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
